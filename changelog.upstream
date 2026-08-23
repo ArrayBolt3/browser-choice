@@ -1,3 +1,28 @@
+commit d8382ecc39d6268743f0533d3b73ad85528d129a
+Merge: 3216f59 bf3a944
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 22 22:39:49 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit 3216f593ec05b9df924f5ab9768fe48c2ce8f12a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 21 08:52:00 2026 +0000
+
+    bumped changelog version
+
+commit bf3a9443ea8ad6774fbb9b59bc59c119b72ce068
+Author: claude (dev272 e8b76afb-795c-4739-8ebd-023de854021e) <noreply@anthropic.com>
+Date:   Fri Aug 21 04:27:44 2026 -0400
+
+    browser-choice: source helper-scripts via HELPER_SCRIPTS_PATH, drop SC1091 disable
+
+    - tor-browser-install-helper: use source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/boot-session-detection.bsh;
+      drop the dead '# shellcheck disable=SC1091' and the stale sibling note.
+    - completed pre-existing whole-file style debt (R-010 strict-mode block: add export LC_ALL=C).
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
 commit dbaef655e5c2f123d990cb89dbf2d3b57887048f
 Merge: b098a48 f6b1183
 Author: Patrick Schleizer <adrelanos@whonix.org>
