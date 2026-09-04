@@ -14,8 +14,4 @@ shopt -s shift_verbose
 
 apt-get-noninteractive --yes purge tb-updater tb-starter
 
-## HOME is not guaranteed -- a systemd unit or a bare sudo can leave it
-## unset -- and under nounset the expansion aborts even though the command
-## is a no-op 'true'. That abort lands AFTER the purge has already run, so
-## the caller sees a failure for work that succeeded.
-true "NOTE: Deletion of folder ${HOME:-}/.tb not yet implemented."
+true "NOTE: Deletion of folder ${HOME:-'$HOME'}/.tb not yet implemented."

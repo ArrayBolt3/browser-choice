@@ -3,7 +3,7 @@
 ## Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-## Keep the command trace: it is this script's diagnostic output.
+## Keep the command trace so the user sees the apt commands run here.
 set -x
 set -o errexit
 set -o nounset
@@ -17,13 +17,15 @@ apt-get-noninteractive update
 
 apt-get-noninteractive --no-install-recommends --yes install tb-updater tb-starter
 
+## Apt commants have been run, xtrace would just be confusing now.
+set +x
+
 ## sets: boot_session
+## FIXME: We need helper-scripts pulled in for CI to avoid a shellcheck issue
+## here.
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/boot-session-detection.bsh
 source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/boot-session-detection.bsh
 
-## Assigned by the sourced fragment above, which shellcheck cannot follow in an
-## isolated checkout.
-# shellcheck disable=SC2154
 if [ "${boot_session}" = "sysmaint_session" ]; then
   printf '%s\n' "
 ------------------------------------------------------------------------------

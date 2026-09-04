@@ -11,7 +11,7 @@ shopt -s inherit_errexit
 shopt -s shift_verbose
 
 supported_arch_list=( "$@" )
-current_arch="$(dpkg --print-architecture)"
+current_arch="$(dpkg --print-architecture)" || current_arch='UNKNOWN'
 
 for supported_arch in "${supported_arch_list[@]}"; do
   if [ "${current_arch}" = "${supported_arch}" ]; then
