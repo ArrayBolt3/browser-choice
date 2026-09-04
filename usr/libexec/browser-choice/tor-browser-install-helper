@@ -3,19 +3,28 @@
 ## Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## Keep the command trace: it is this script's diagnostic output.
 set -x
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
+export LC_ALL=C
 
 apt-get-noninteractive update
 
 apt-get-noninteractive --no-install-recommends --yes install tb-updater tb-starter
 
-set +x
-
 ## sets: boot_session
-source /usr/libexec/helper-scripts/boot-session-detection.bsh
+# shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/boot-session-detection.bsh
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/boot-session-detection.bsh
 
-if [ "$boot_session" = "sysmaint_session" ]; then
+## Assigned by the sourced fragment above, which shellcheck cannot follow in an
+## isolated checkout.
+# shellcheck disable=SC2154
+if [ "${boot_session}" = "sysmaint_session" ]; then
   printf '%s\n' "
 ------------------------------------------------------------------------------
 Done installing tb-updater and tb-starter. Reboot into

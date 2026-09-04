@@ -3,9 +3,19 @@
 ## Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## Keep the command trace: it is this script's diagnostic output.
 set -x
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
 
 apt-get-noninteractive --yes purge tb-updater tb-starter
 
-true "NOTE: Deletion of folder ${HOME}/.tb not yet implemented."
+## HOME is not guaranteed -- a systemd unit or a bare sudo can leave it
+## unset -- and under nounset the expansion aborts even though the command
+## is a no-op 'true'. That abort lands AFTER the purge has already run, so
+## the caller sees a failure for work that succeeded.
+true "NOTE: Deletion of folder ${HOME:-}/.tb not yet implemented."

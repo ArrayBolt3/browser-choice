@@ -1,9 +1,232 @@
+commit d8382ecc39d6268743f0533d3b73ad85528d129a
+Merge: 3216f59 bf3a944
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 22 22:39:49 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit 3216f593ec05b9df924f5ab9768fe48c2ce8f12a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 21 08:52:00 2026 +0000
+
+    bumped changelog version
+
+commit bf3a9443ea8ad6774fbb9b59bc59c119b72ce068
+Author: claude (dev272 e8b76afb-795c-4739-8ebd-023de854021e) <noreply@anthropic.com>
+Date:   Fri Aug 21 04:27:44 2026 -0400
+
+    browser-choice: source helper-scripts via HELPER_SCRIPTS_PATH, drop SC1091 disable
+
+    - tor-browser-install-helper: use source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/boot-session-detection.bsh;
+      drop the dead '# shellcheck disable=SC1091' and the stale sibling note.
+    - completed pre-existing whole-file style debt (R-010 strict-mode block: add export LC_ALL=C).
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit dbaef655e5c2f123d990cb89dbf2d3b57887048f
+Merge: b098a48 f6b1183
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 19 00:10:36 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit b098a48ec5a34822d134c5df84c011728c260b4d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 10 14:28:28 2026 +0000
+
+    bumped changelog version
+
+commit 62952dd83a4f3c899d72f2620d089ba77a7390b6
+Merge: b879575 ee301fe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 10 10:21:00 2026 -0400
+
+    Merge remote-tracking branch 'org-ai-assisted/master'
+
+commit b8795754a6082f469abf4b3d064217b8e4782bd9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 10 14:08:53 2026 +0000
+
+    bumped changelog version
+
+commit 3d59e28b323b2353c7cfe3ebee9b9990cbf5e4e1
+Merge: 946be52 ff9ad38
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 9 01:46:01 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit f6b11830723d1bdd96f0a23272d4e41e8c981c4e
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Fri Aug 7 14:52:37 2026 -0400
+
+    restore 'set -x' dropped by the strict-mode pass
+
+    The R-010 conversion replaced each script's existing preamble wholesale and did
+    not carry 'set -x' across. That is a silent loss of diagnostic output, and for
+    several of these it is the only output there is:
+
+    - build-time scripts (hardened-kernel build / download / ci_test, tirdad
+      build.sh, initializer-dist chroot-scripts-post.d): the trace IS the build log,
+      so a failing invocation and its expanded arguments become unavailable exactly
+      when they are needed.
+    - boot-time scripts (libvirt-dist, repository-dist-initializer).
+    - scripts whose only messages are 'true "INFO: ..."' lines, which produce
+      nothing on their own -- removing xtrace silences them completely.
+    - test harnesses (tb-updater unit_test, sdwdate-gui fuzzer), where the trace is
+      the point.
+
+    It was also inconsistent: initializer-dist's 80_cleanup kept it while its four
+    siblings in the same directory lost it.
+
+    Nothing asked for this and no commit described it as intentional, so it is
+    restored everywhere it was active.
+
+    Found by codex on initializer-dist. The other 19 files came from auditing the
+    whole pass for the same pattern.
+
+    Testing
+    -------
+
+    Gate exit 0 in an ISOLATED checkout, all eleven packages.
+
+    Audit: ~/strict-pass-tests/audit-stripped-setx.sh, which compares every file
+    changed on an 'ai' branch against org-ai-assisted/master and reports any that
+    had 'set -x' and no longer do.
+
+      before:  examined 43 package(s) on branch ai, 342 changed file(s); 23 stripped
+      after:   examined 43 package(s) on branch ai, 342 changed file(s);  0 stripped
+
+    The audit prints its own coverage, and fails outright if it examines zero
+    packages. Its first version tested '[ -d "$pkg/.git" ]', which is false for a
+    submodule -- .git is a FILE there -- so it skipped all 43 and reported nothing
+    stripped. A count that can be read is the difference between "clean" and "never
+    looked".
+
+commit 6688f0959e2c19aab8ec21e63c1b61fffa7d9c38
+Merge: 03b1aa8 ee301fe
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Fri Aug 7 12:32:00 2026 -0400
+
+    Merge org-ai-assisted/master into ai
+
+    The branch was created from a stale local master, so its PR diff showed
+    master's newer commits -- including a changelog version bump -- as REMOVALS.
+    Merging rather than rebasing, per the no-history-rewrites rule.
+
+commit 03b1aa87bb05d0ebbd4c9123bc4d9071654bbf0d
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Fri Aug 7 10:29:11 2026 -0400
+
+    browser-choice: R-010 strict mode for the helper scripts
+
+    Files: usr/libexec/browser-choice/{architecture-support-check,
+    mullvad-browser-install-helper,tor-browser-install-helper,
+    tor-browser-purge-helper,tor-browser-uninstall-helper,qubes-proxy-maybe}.
+
+    qubes-proxy-maybe already had four of the six directives; the two shopt lines
+    complete it so the whole package reads the same way.
+
+    Real nounset trap
+    -----------------
+
+    tor-browser-purge-helper interpolates ${HOME} into a 'true "NOTE: Deletion of
+    folder ${HOME}/.tb not yet implemented."'. HOME is not guaranteed -- a systemd
+    unit or a bare sudo can leave it unset -- and under nounset the expansion
+    aborts even though the command is a no-op. The abort lands AFTER the purge has
+    already run, so the caller sees a failure for work that succeeded.
+
+    This is the second instance of the same shape in this pass, after
+    msgprogressbar's ${parentpid}: a 'true "..."' debug string is invisible in
+    normal operation but is still a parameter expansion, so nounset makes it fatal.
+
+    Also
+    ----
+
+    - 'set -x' removed from the four helpers that shipped with tracing left on,
+      along with the now-orphaned 'set +x' in tor-browser-install-helper that used
+      to pair with it.
+    - boot-session-detection.bsh given its '# shellcheck source=' path with the
+      SC1091/SC2154 waivers a sibling-repo source needs in an isolated checkout,
+      and braces on ${boot_session}.
+
+    Testing
+    -------
+
+    Gate exit 0 in an ISOLATED checkout.
+
+    New harness at ~/strict-pass-tests/bc-test/. These scripts run as root and
+    drive apt, so nothing touches the real system: apt-get-noninteractive and dpkg
+    are stubbed, boot-session-detection.bsh is a fixture, and every absolute path
+    they write to is redirected into a fake root. 14 cases: the architecture check
+    against a matching arch, a non-matching arch, no arguments and a different
+    current arch; each install/remove helper with apt succeeding and failing; both
+    boot sessions; and HOME unset.
+
+      14 same, 0 differing
+
+    Canary: reverting just the HOME default reproduces the abort -- 13 same, 1
+    differing -- so that case tests the fix rather than passing regardless.
+
+commit ff9ad38deaa629089af61b600a25a3253837ef57
+Merge: a22e91b 946be52
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Aug 6 23:19:25 2026 -0400
+
+    Merge branch 'master' into arraybolt3/trixie
+
+commit a22e91b9b95d4972bb03cdb2531bce0a108a4fc8
+Merge: 3873e18 be3dc0e
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Aug 6 23:16:54 2026 -0400
+
+    Merge branch 'ai' into arraybolt3/trixie
+
+commit ee301fe9f738af38694de1bd053ef68d587264f2
+Merge: 946be52 be3dc0e
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Sat Aug 1 05:00:25 2026 -0400
+
+    Merge pull request #2 from org-ai-assisted/ai
+
+    CI: add bandit, codeql-actions, secrets-audit scanner workflows
+
+commit 946be52a1f287f5b6ddf187806dd6c318316e17c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 1 08:37:23 2026 +0000
+
+    bumped changelog version
+
 commit 06abc1e2a7b5abcdc4d629439af11238de67d04a
 Merge: 3873e18 b038ff6
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Aug 1 04:21:26 2026 -0400
 
     Merge remote-tracking branch 'refs/remotes/org-ai-assisted/master'
+
+commit be3dc0e91be27614b749c067a137c75ca88177b1
+Author: claude (dev142 b93fb2c6-e15f-4d45-8566-f3ded893b70e) <noreply@anthropic.com>
+Date:   Fri Jul 31 16:15:54 2026 -0400
+
+    CI: propagate bandit, codeql-actions, secrets-audit workflows
+
+    Byte-identical propagation from developer-meta-files
+    consumer-templates. Closes scanner-coverage gaps:
+
+    - consumer-bandit.yml: Python security lint, universal
+      self-discovery (extension + shebang scan), no per-repo config.
+    - consumer-codeql-actions.yml: CodeQL 'actions' language --
+      workflow-YAML security analysis (script-injection, missing
+      permissions, unpinned actions).
+    - consumer-secrets-audit.yml: manual-dispatch secrets surface
+      audit (presence flags only, values never emitted).
+
+    Managed files -- do not hand-edit; regenerated on the next
+    propagation pass.
+
+    ## AI-Assisted
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 
 commit b038ff65e25c8ba60a9690ad141c04be3461c82d
 Merge: 3873e18 e0981ea

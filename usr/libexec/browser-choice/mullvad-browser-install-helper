@@ -3,8 +3,14 @@
 ## Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## Keep the command trace: it is this script's diagnostic output.
 set -x
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
 
 cp --verbose -- /usr/share/browser-choice/keys/mullvad-keyring.asc /etc/apt/keyrings/
 cp --verbose -- /usr/share/browser-choice/repo-defs/mullvad.sources /etc/apt/sources.list.d/
