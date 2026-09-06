@@ -1,3 +1,22 @@
+commit a97a6f9194b2faa56810d9670c2fadf45d646bfb
+Merge: 1d17f53 3d93d92
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 25 01:29:47 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit 3d93d92746390c0887b8ab141ed1c3176b7bff9d
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Mon Aug 24 23:29:22 2026 -0400
+
+    ci: drop orphaned consumer-secrets-audit.yml (reusable decommissioned)
+
+commit 1d17f53ee16c03f724fb1be09d215549253d7710
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 23 05:45:38 2026 +0000
+
+    bumped changelog version
+
 commit d8382ecc39d6268743f0533d3b73ad85528d129a
 Merge: 3216f59 bf3a944
 Author: Patrick Schleizer <adrelanos@whonix.org>
