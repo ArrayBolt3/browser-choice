@@ -2,7 +2,7 @@
 ## See the file COPYING for copying conditions.
 
 ## Code duplication. (Un)installation commands are also present in
-## live-config-dist/etc/privleap/conf.d/live-config-dist.conf.
+## browser-choice/usr/share/browser-choice/live-config/browser-choice-live.conf.
 
 [product]
 product-name=Firefox
