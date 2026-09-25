@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -su
+#!/usr/bin/python3 -Bsu
 
 # Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
@@ -243,7 +243,7 @@ class BrowserChoiceWindow(QDialog):
         plugin_data: list[ChoicePluginCategory],
         parent: QWidget | None = None,
     ):
-        super(QWidget, self).__init__(parent)
+        super().__init__(parent)
 
         self.setWindowFlags(Qt.Window)
 

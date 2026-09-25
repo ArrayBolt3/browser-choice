@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -su
+#!/usr/bin/python3 -Bsu
 
 # Copyright (C) 2025 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 # See the file COPYING for copying conditions.
@@ -363,7 +363,7 @@ class ChoicePlugin(QObject):
         repo_list: list[ChoicePluginRepo],
         parent: QObject | None = None,
     ):
-        super(QObject, self).__init__(parent)
+        super().__init__(parent)
         self.product_name: str = product_name
         self.product_category: str = product_category
         self.product_website: str = product_website
@@ -383,7 +383,7 @@ class ChoicePluginCategory(QObject):
     """
 
     def __init__(self, category_name: str, parent: QObject | None = None):
-        super(QObject, self).__init__(parent)
+        super().__init__(parent)
 
         self.category_name = category_name
         self.plugin_list: list[ChoicePlugin] = []
